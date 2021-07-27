@@ -5,6 +5,7 @@ export class User {
   email: string
   password: string
   accessToken: string | null
+  _tokenExpirationDate: Date
   constructor({
     firstName = '',
     lastName = '',
@@ -19,5 +20,12 @@ export class User {
     this.email = email
     this.password = password
     this.accessToken = rest.accessToken ? rest.accessToken : null
+    //not sure if I should add _tokenExpirationDate
+  }
+  get token() {
+    if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
+      return null;
+    }
+    return this.accessToken;
   }
 }
